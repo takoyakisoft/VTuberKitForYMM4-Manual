@@ -1,40 +1,175 @@
 ---
-title: Welcome to Starlight
-description: Get started building your docs site with Starlight.
-template: splash # Remove or comment out this line to display the site sidebar on this page.
-hero:
-  tagline: Congrats on setting up a new Starlight project!
-  image:
-    file: ../../assets/houston.webp
-  actions:
-    - text: Example Guide
-      link: /guides/example/
-      icon: right-arrow
-    - text: Read the Starlight docs
-      link: https://starlight.astro.build
-      icon: external
-      variant: minimal
+title: VTuberKitForYMM4 マニュアル
+description: VTuberKitForYMM4 の導入方法と基本的な使い方
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
+:::note[販売ページ]
+VTuberKitForYMM4 のダウンロード・購入は、BOOTH の販売ページから行えます。  
+[VTuberKitForYMM4 販売ページを開く](https://takoyakisoft.booth.pm/items/8163431)
+:::
 
-## Next steps
+![VTuberKit for YMM4](/images/eyecatch.webp)
 
-<CardGrid stagger>
-	<Card title="Update content" icon="pencil">
-		Edit `src/content/docs/index.mdx` to see this page change.
-	</Card>
-	<Card title="Change page layout" icon="document">
-		Delete `template: splash` in `src/content/docs/index.mdx` to display a
-		sidebar on this page.
-	</Card>
-	<Card title="Add new content" icon="add-document">
-		Add Markdown or MDX files to `src/content/docs` to create new pages.
-	</Card>
-	<Card title="Configure your site" icon="setting">
-		Edit your `sidebar` and other config in `astro.config.mjs`.
-	</Card>
-	<Card title="Read the docs" icon="open-book">
-		Learn more in [the Starlight Docs](https://starlight.astro.build/).
-	</Card>
-</CardGrid>
+このページは、**VTuberKitForYMM4 を YMM4 で使い始めるための操作マニュアル**です。
+
+商品の概要、利用条件、無料版・製品版の機能差、禁止事項などは BOOTH 商品ページをご確認ください。  
+ここでは、インストール、モデルの追加、タイムラインでの使い方、出力時の注意点を中心に説明します。
+
+## 最初に知っておくこと
+
+### 立ち絵アイテムはなるべく1つにする
+
+VTuberKitForYMM4 の **立ち絵アイテムは、それ1つがモデルを読み込んで描画しています**。
+
+同じキャラクターで表情やセリフを切り替える場合、立ち絵アイテムを何個も増やすより、次のように使うことをおすすめします。
+
+1. キャラクターごとに **立ち絵アイテム** を1つ配置する
+2. その立ち絵アイテムに対して **表情アイテム** や **ボイスアイテム** を追加する
+3. 表情、モーション、口パクなどは表情アイテム・ボイスアイテム側で指定する
+
+この使い方のほうが、モデルの読み込み数を抑えやすく、メモリ使用量も増えにくくなります。
+
+### 拡大率はプラグイン側で調整する
+
+モデルの大きさを変える場合は、**YMM4側の拡大率ではなく、VTuberKitForYMM4 の立ち絵アイテム内にある拡大率**を使用してください。
+
+YMM4側の拡大率で大きくすると、プラグインが描画した画像そのものが引き延ばされるため、表示がぼやける場合があります。
+
+![立ち絵アイテムの拡大率を設定](/images/step-12-set-plugin-scale.webp)
+
+## インストール
+
+### 1. `.ymme` 拡張子を Windows に登録する
+
+初回のみ、`.ymme` ファイルを YMM4 の拡張機能として扱えるように登録します。
+
+![ymme拡張子をWindowsに登録](/images/step-01-register-ymme-extension.webp)
+
+### 2. `.ymme` インストーラーをダブルクリックする
+
+BOOTH からダウンロードした `.ymme` ファイルをダブルクリックします。
+
+![ymmeインストーラーをダブルクリック](/images/step-02-double-click-ymme-installer.webp)
+
+### 3. YMM4にインストールする
+
+インストール画面が開いたら、内容を確認してインストールしてください。
+
+![ymmeインストール画面](/images/step-03-install-ymme.webp)
+
+## モデルの追加
+
+### 1. キャラクター設定画面を開く
+
+YMM4のキャラクター設定画面を開きます。
+
+![キャラクター設定画面の開き方](/images/step-04-open-character-settings.webp)
+
+### 2. キャラクターを複製して立ち絵プラグインを選ぶ
+
+既存キャラクターを複製し、立ち絵の種類から VTuberKitForYMM4 のプラグインを選択します。
+
+![既存キャラの複製と立ち絵プラグイン選択](/images/step-05-duplicate-character-and-select-plugin.webp)
+
+### 3. モデル用フォルダを開く
+
+キャラクター設定から、モデルを配置するフォルダを開きます。
+
+![キャラクターモデルのフォルダを開く](/images/step-06-open-model-folder.webp)
+
+### 4. モデルファイルを配置する
+
+使用したい Live2D / VRM / MMD モデルを、開いたフォルダ内に配置します。
+
+![キャラクターモデルを配置](/images/step-07-place-model-files.webp)
+
+### 5. モデル一覧を更新して選択する
+
+YMM4に戻り、モデル一覧を更新して、使用するモデルを選択します。
+
+![モデル一覧の更新と選択](/images/step-08-refresh-and-select-model.webp)
+
+## タイムラインで使う
+
+### 1. 立ち絵アイテムを配置する
+
+タイムラインに VTuberKitForYMM4 の立ち絵アイテムを配置します。
+
+![立ち絵アイテムの配置](/images/step-09-place-tachie-item.webp)
+
+### 2. ボイスアイテムまたは表情アイテムを配置する
+
+立ち絵アイテムに対して、ボイスアイテムまたは表情アイテムを配置します。
+
+![ボイスアイテムまたは表情アイテムの配置](/images/step-10-place-voice-or-expression-item.webp)
+
+### 3. 表情やモーションを選ぶ
+
+表情アイテム側で、使用する表情やモーションを選択します。
+
+![表情アイテムにモーションと表情を選択](/images/step-11-select-motion-and-expression.webp)
+
+### 4. 必要に応じて視線などを調整する
+
+視線追従などのパラメータを使うと、キャラクターの向きや目線を調整できます。
+
+![立ち絵アイテムの視線追従：左向き](/images/step-15-gaze-left.webp)
+
+![立ち絵アイテムの視線追従：右向き](/images/step-16-gaze-right.webp)
+
+## 動画出力
+
+### 1. 動画出力画面を開く
+
+YMM4の動画出力画面を開きます。
+
+![動画出力画面の開き方](/images/step-13-open-video-export.webp)
+
+### 2. 動画を書き出す
+
+出力設定を確認して、動画を書き出します。
+
+![動画出力画面で出力](/images/step-14-export-video.webp)
+
+## 注意点
+
+### プレビューと動画出力で見た目が変わる場合があります
+
+プレビュー画面では操作性を優先するため、物理演算が簡易的に表示される場合があります。
+
+動画出力時には出力用の物理演算が行われるため、プレビュー画面と動画出力結果で、髪・服・アクセサリなどの揺れものの見た目が変わることがあります。
+
+サムネイル出力でも、プレビュー画面や動画出力時と物理演算の状態が完全には一致しない場合があります。
+
+### 動画ファイルサイズが大きくなる場合があります
+
+VRM SpringBone や MMD物理演算など、フレームごとに見た目が変化する要素を含む場合、通常のゆっくり立ち絵のみを使った動画に比べて、動画ファイルサイズが大きくなることがあります。
+
+### プロジェクトファイルサイズが大きくなる場合があります
+
+Live2D / VRM / MMD モデルは設定できる項目が多いため、使用するモデル数や設定内容によっては、YMM4のプロジェクトファイルサイズが大きくなることがあります。
+
+### VRM 0.x モデルについて
+
+VRM 0.x 系のモデルは、内部で VRM 1.0 形式として扱います。
+
+一部のモデルでは、変換後に手指や肘の曲がり方が不自然になる場合があります。問題が出る場合は、Blender の VRM Add-on などで、あらかじめ VRM 1.0 形式に変換したモデルをご利用ください。
+
+### モデルや素材の利用規約を確認してください
+
+本プラグインにモデルデータは付属しません。
+
+使用するモデル、モーション、音声、動画素材などは、それぞれの作者・配布元が定める利用規約に従ってください。
+
+## 困ったとき
+
+不具合と思われる症状がある場合は、次の情報を添えてご連絡ください。
+
+- 使用している YMM4 のバージョン
+- 使用している VTuberKitForYMM4 のバージョン
+- 使用しているモデル形式：Live2D / VRM / MMD
+- 発生している症状
+- 可能であればログファイル
+
+連絡先は X の **[@takoyakisoft](https://x.com/takoyakisoft)** です。  
+直接メンション、またはDMでお問い合わせください。

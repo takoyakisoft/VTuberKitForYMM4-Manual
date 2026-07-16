@@ -1,0 +1,74 @@
+name: Publish plugin version metadata
+
+on:
+  repository_dispatch:
+    types:
+      - publish-plugin-version
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-plugin-version
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Validate and write metadata
+        shell: bash
+        env:
+          VERSION: ${{ github.event.client_payload.version }}
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          const path = require('node:path');
+
+          const version = process.env.VERSION ?? '';
+          if (!/^\d+\.\d+\.\d+$/.test(version)) {
+            throw new Error(`Invalid plugin version: ${version}`);
+          }
+
+          const outputPath = path.join('public', 'update', 'latest.json');
+          fs.mkdirSync(path.dirname(outputPath), { recursive: true });
+          fs.writeFileSync(
+            outputPath,
+            `${JSON.stringify({
+              schemaVersion: 1,
+              latestVersion: version,
+              downloadPageUrl: 'https://booth.pm/ja/items/8163431',
+            }, null, 2)}\n`,
+            'utf8',
+          );
+          NODE
+
+      - name: Commit metadata
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/update/latest.json
+
+          if git diff --cached --quiet; then
+            echo "Plugin version metadata is already current."
+            exit 0
+          fi
+
+          git commit -m "Update plugin version metadata to v${{ github.event.client_payload.version }}"
+
+          for attempt in 1 2 3; do
+            git pull --rebase origin main
+            if git push origin HEAD:main; then
+              exit 0
+            fi
+            sleep $((attempt * 2))
+          done
+
+          echo "Failed to push plugin version metadata after three attempts." >&2
+          exit 1

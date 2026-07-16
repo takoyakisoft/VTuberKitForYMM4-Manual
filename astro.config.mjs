@@ -4,7 +4,7 @@ import starlight from '@astrojs/starlight';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://vtuberkitforymm4.pages.dev',
+	site: 'https://vtuberkitforymm4.takoyakisoft.com',
 	integrations: [
 		starlight({
 			title: 'VTuberKitForYMM4 マニュアル',
